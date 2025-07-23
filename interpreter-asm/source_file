@@ -1,0 +1,6 @@
+infinite:
+    push 0x38429
+    push 0x3429
+    add
+    sti 0x32
+    bl infinite
