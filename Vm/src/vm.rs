@@ -10,6 +10,13 @@ use std::alloc::{alloc, dealloc, Layout};
 const PAGE_SIZE: usize = 4096;
 const INSTTRUCTION_SIZE: u8 = 9;
 
+fn align(to_align: usize, align_on_x_bytes: usize) -> usize{
+    if to_align == 0{
+        return align_on_x_bytes
+    }
+    align_on_x_bytes.wrapping_mul(align_on_x_bytes.wrapping_div(to_align))
+}
+
 pub struct Vm{
     memory: *mut u64,
     ra: isize,  //Return address stack pointer
@@ -38,17 +45,21 @@ impl Vm{
             self.handler_table(opcode);
         }
     }
-    pub unsafe fn new_vm(code:&[u8], pc:isize) -> Vm{
-        let layout = Layout::array::<u64>( PAGE_SIZE ).unwrap();
+    pub unsafe fn new_vm(code:&[u8], ra_stack_size: usize, stack_size: usize) -> Vm{
+        let code_size = align(code.len(), 8);
+        let ra_stack = align(ra_stack_size, 128);
+        let stack_size= align(stack_size, 256);
+        let total_size = code_size + ra_stack + stack_size;
+        let layout = Layout::array::<u64>( total_size ).unwrap();
         let memory = alloc(layout);
-        let mut temp = pc;
+        let mut index: isize = 0;
 
         for bytes in code{
-            *memory.offset(temp) = *bytes;
-            temp += 1;
+            *memory.offset((stack_size + ra_stack) as isize + index) = *bytes;
+            index += 1;
         }
 
-        Vm{memory: memory as *mut u64, ra: 64, bp: 66, sp: 66, pc, imm: 0, memory_size: PAGE_SIZE as u64}
+        Vm{memory: memory as *mut u64, ra: 0, bp: ra_stack as isize, sp: ra_stack as isize, pc: (stack_size + ra_stack) as isize, imm: 0, memory_size: total_size as u64}
     }
 
     //Setting flags
