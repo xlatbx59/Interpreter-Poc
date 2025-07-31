@@ -13,6 +13,7 @@ The syntax to write for this assembler is fairly simple(lazy), whitespaces are i
 ```
 ;Don't try executing this code, I'm just showing off the syntax
 start: 		;Labels on single lines like this have to finish with a colon
+
 	push 0x59	;supports hexadecimal
     push 932	;supports decimal
     add
@@ -23,6 +24,11 @@ end ret		;Labels preceding an instruction this don't need a colon
 ```
 
 ## Virtual Machine
+
+### Usage
+- "-ra" switch is to define the size of the return address stack(as to be decimal)
+- "-stk" switch is to define the size of the general stack(as to be decimal)
+Example: "./vm -ra 38 -stk 40 <path to bytecode>"
 
 ### Code
 
@@ -77,6 +83,9 @@ There are a few registers, they're not general purpose they can not be used for 
 - Bp: the base register that keeps track of the base of a stack frame for each functions
 - Pc: program counter, it points to the executed instruction
 - Ra: just like the Sp but for the stack for the return addresses
+
+> ## Issues
+> No Vmentry/Vmexit
 
 ## Advantages
 - :3
