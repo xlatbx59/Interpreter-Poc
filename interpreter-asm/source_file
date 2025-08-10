@@ -1,6 +1,7 @@
+    push 0x1
 infinite:
-    push 0x38429
-    push 0x3429
-    add
-    sti 0x32
-    bl infinite
+    subi 1
+    dup
+    push 0x00
+    bnz infinite
+    vmexit

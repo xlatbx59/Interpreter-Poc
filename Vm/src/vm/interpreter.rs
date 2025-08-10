@@ -3,10 +3,16 @@
 //Link to repo: https://github.com/xlatbx59/Interpreter-Poc
 
 use super::*;
+use std::alloc::{dealloc, Layout};
 
 impl Vm{
     pub(super) unsafe fn syscall(&mut self){
         unimplemented!()
+    }
+    pub(super) unsafe fn vm_exit(&mut self){
+        let layout = Layout::array::<u64>( self.memory_size as usize). unwrap();
+        self.exit_flag = true;
+        dealloc(self.memory as *mut u8, layout);
     }
     //Stack stuff
     pub(super) unsafe fn dup(&mut self) -> (){

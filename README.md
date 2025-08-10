@@ -45,6 +45,7 @@ Self explanatory, executable bytecode resides there
 
 #### Other
 - Syscall: currently unimplemented
+- Vmentry: exits the vm
 
 #### Stack operations
 - Push: push an immediate on the stack
@@ -85,7 +86,7 @@ There are a few registers, they're not general purpose they can not be used for 
 - Ra: just like the Sp but for the stack for the return addresses
 
 > ## Issues
-> No Vmentry/Vmexit
+> No proper error handling, if you write bad written code the vm might segfault or whatever, except all kind of exceptions
 
 ## Advantages
 - :3

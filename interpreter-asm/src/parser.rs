@@ -35,7 +35,7 @@ impl Parser{
             IA_POP => IaMnemonic::IaPop, IA_DUP => IaMnemonic::IaDup, IA_ADDI => IaMnemonic::IaAddi,
             IA_BNZ => IaMnemonic::IaBnz, IA_BZ => IaMnemonic::IaBz, IA_RET => IaMnemonic::IaRet,
             IA_NOT => IaMnemonic::IaNot, IA_MUL => IaMnemonic::IaMul, IA_MULI => IaMnemonic::IaMuli,
-            IA_NOP => IaMnemonic::IaNop, IA_SYSCALL => IaMnemonic::IaSyscall,
+            IA_NOP => IaMnemonic::IaNop, IA_SYSCALL => IaMnemonic::IaSyscall, IA_VMEXIT => IaMnemonic::IaVmexit,
             _ => panic!(),
         };
         self.index += 1;

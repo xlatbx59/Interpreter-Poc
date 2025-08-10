@@ -18,56 +18,57 @@ fn main() {
     let mut bytecode_file: File;
     let mut bytecode: Vec<u8> = Vec::new();
 
-    input.next();
-    while let Some(arg) = input.next(){
-        match arg.as_str(){
-            RA_SWITCH  => {
-                println!("Return address stack {}", arg);
-                if ra != 0 {input.next(); continue}
-                match input.next(){
-                    Some(idk) => ra = idk.clone().parse::<usize>().unwrap(),
-                    None => {
-                        eprintln!("[-]Switch \"-ra\" is missing parameters");
-                        return;
-                    }
-                }
-            },
-            STK_SWITCH  => {
-                println!("General stack size{}", arg);
-                if stk != 0 {input.next(); continue}
-                match input.next(){
-                    Some(idk) => stk = idk.clone().parse::<usize>().unwrap(),
-                    None => {
-                        eprintln!("[-]Switch \"-ra\" is missing parameters");
-                        return;
-                    }
-                }
-            },
-            _ => {
-                flag = true;
-                println!("Path {}", arg);
-                bytecode_file = File::open(arg.clone()).unwrap();
-                bytecode_file.read_to_end(&mut bytecode).unwrap();
-            },
-        };
-    };
+    // input.next();
+    // while let Some(arg) = input.next(){
+    //     match arg.as_str(){
+    //         RA_SWITCH  => {
+    //             println!("Return address stack {}", arg);
+    //             if ra != 0 {input.next(); continue}
+    //             match input.next(){
+    //                 Some(idk) => ra = idk.clone().parse::<usize>().unwrap(),
+    //                 None => {
+    //                     eprintln!("[-]Switch \"-ra\" is missing parameters");
+    //                     return;
+    //                 }
+    //             }
+    //         },
+    //         STK_SWITCH  => {
+    //             println!("General stack size{}", arg);
+    //             if stk != 0 {input.next(); continue}
+    //             match input.next(){
+    //                 Some(idk) => stk = idk.clone().parse::<usize>().unwrap(),
+    //                 None => {
+    //                     eprintln!("[-]Switch \"-ra\" is missing parameters");
+    //                     return;
+    //                 }
+    //             }
+    //         },
+    //         _ => {
+    //             flag = true;
+    //             println!("Path {}", arg);
+    //             bytecode_file = File::open(arg.clone()).unwrap();
+    //             bytecode_file.read_to_end(&mut bytecode).unwrap();
+    //         },
+    //     };
+    // };
 
-    if ra == 0 && !flag && stk == 0{
-        eprintln!("[!]Usage: ./vm -ra 42 -stk 29 <path>");
-        return
-    }
-    else if !flag{
-        eprintln!("[-]No path specified");
-        return
-    }
+    // if ra == 0 && !flag && stk == 0{
+    //     eprintln!("[!]Usage: ./vm -ra 42 -stk 29 <path>");
+    //     return
+    // }
+    // else if !flag{
+    //     eprintln!("[-]No path specified");
+    //     return
+    // }
 
-    // bytecode_file = File::open("../interpreter-asm/vm_code.byc").unwrap();
-    // bytecode_file.read_to_end(&mut bytecode).unwrap();
-    // ra = 0x14;
-    // stk = 0x14;
+    bytecode_file = File::open("../interpreter-asm/vm_code.byc").unwrap();
+    bytecode_file.read_to_end(&mut bytecode).unwrap();
+    ra = 0x14;
+    stk = 0x14;
 
     unsafe{
         let mut vm: Vm = Vm::new_vm(&bytecode, ra, stk);
         vm.dispatcher();
     }
+    println!("[+]Vm exited successfully!");
 }
