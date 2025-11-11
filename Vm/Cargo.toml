@@ -1,7 +1,0 @@
-[package]
-name = "Vm"
-version = "0.1.0"
-edition = "2024"
-authors = ["xlatbx59"]
-
-[dependencies]

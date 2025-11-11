@@ -1,0 +1,10 @@
+[package]
+authors = ["xlatbx59"]
+name = "Interpreter-Poc"
+repository = "https://github.com/xlatbx59/Interpreter-Poc"
+description = "Stack machine using an interpreter"
+keywords = ["vm", "stack", "interpreter"]
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
